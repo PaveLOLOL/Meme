@@ -1,85 +1,136 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it! We start project meme" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+  <div class="wrapper">
+    <Navbar/>
+    <header class="header">
+      <h1>Добро пожаловать на наш сайт!</h1>
+      <nav class="nav">
+        <ul>
+          <li><a href="#about">О нас</a></li>
+          <li><a href="#services">Услуги</a></li>
+          <li><a href="#contact">Контакты</a></li>
+        </ul>
       </nav>
-    </div>
-  </header>
+    </header>
 
-  <RouterView />
+    <main class="main-content">
+      <section id="about">
+        <h2>О нашей компании</h2>
+        <p>Краткое описание компании, миссия и ценности.</p>
+      </section>
+
+      <section id="services">
+        <h2>Наши услуги</h2>
+        <ul>
+          <li>Услуга 1</li>
+          <li>Услуга 2</li>
+          <li>Услуга 3</li>
+        </ul>
+      </section>
+
+      <section id="contact">
+        <h2>Связаться с нами</h2>
+        <form @submit.prevent="submitForm">
+          <label>
+            Имя:
+            <input v-model="form.name" required />
+          </label>
+          <label>
+            Email:
+            <input v-model="form.email" type="email" required />
+          </label>
+          <label>
+            Сообщение:
+            <textarea v-model="form.message" required></textarea>
+          </label>
+          <button type="submit">Отправить</button>
+        </form>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>© 2025 Моя Компания. Все права защищены.</p>
+    </footer>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+
+<script setup lang="ts">
+import {useAuthStore} from '@/stores/auth';
+import {reactive} from 'vue';
+
+import Navbar from '@/components/navbar/Navbar.vue'
+
+const authStore = useAuthStore();
+
+
+const form = reactive({
+  name: '',
+  email: '',
+  message: ''
+})
+
+function submitForm() {
+  alert(`Спасибо, ${form.name}! Ваше сообщение отправлено.`)
+  form.name = ''
+  form.email = ''
+  form.message = ''
+}
+</script>
+
+
+<style lang="scss" scoped>
+.wrapper {
+
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
+.header, .footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
   text-align: center;
-  margin-top: 2rem;
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
+.nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
 }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+.nav a {
+  text-decoration: none;
+  color: #007acc;
 }
 
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+.main-content section {
+  margin-bottom: 2rem;
 }
 
-nav a:first-of-type {
-  border: 0;
+form label {
+  display: block;
+  margin-bottom: 0.5rem;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+form input, form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+button {
+  background-color: #007acc;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+}
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+button:hover {
+  background-color: #005fa3;
 }
 </style>
