@@ -1,0 +1,58 @@
+<template>
+  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 160 160" fill="none">
+    <!-- Скошенный фон -->
+    <polygon points="10,140 30,20 150,15 135,155" fill="#ede2ff" stroke="#c2a7fa" stroke-width="8" opacity="0.9"/>
+    <!-- Пузырьки и подтеки -->
+    <g>
+      <ellipse cx="45" cy="140" rx="11" ry="9" fill="#a0046e"/>
+      <ellipse cx="120" cy="35" rx="9" ry="9" fill="#a0046e"/>
+      <ellipse cx="140" cy="100" rx="7" ry="7" fill="#a0046e"/>
+      <ellipse cx="115" cy="120" rx="10" ry="8" fill="#a0046e"/>
+      <ellipse cx="85" cy="22" rx="6" ry="5" fill="#a0046e"/>
+      <ellipse cx="60" cy="120" rx="6" ry="6" fill="#a0046e"/>
+      <!-- блики -->
+      <ellipse cx="48" cy="134" rx="2" ry="2" fill="#fff" opacity="0.6"/>
+      <ellipse cx="119" cy="30" rx="1.5" ry="1.5" fill="#fff" opacity="0.6"/>
+      <ellipse cx="143" cy="95" rx="1.2" ry="1.2" fill="#fff" opacity="0.6"/>
+      <ellipse cx="117" cy="114" rx="1.5" ry="1.5" fill="#fff" opacity="0.6"/>
+      <ellipse cx="87" cy="18" rx="1.2" ry="1.2" fill="#fff" opacity="0.6"/>
+      <ellipse cx="62" cy="116" rx="1" ry="1" fill="#fff" opacity="0.6"/>
+    </g>
+    <!-- Граффити-буквы "Me", буквы стоят отдельно -->
+    <g>
+      <!-- "M" -->
+      <text x="22" y="120" font-family="'Permanent Marker', 'Arial Black', 'Comic Sans MS', cursive" font-size="97" font-weight="bold" fill="url(#graffitiBlue)" stroke="#43155e" stroke-width="8" letter-spacing="1" transform="skewX(-12) rotate(-3 70 120)">
+        M
+      </text>
+      <!-- "e" (сильно правее!) -->
+      <text x="103" y="123" font-family="'Permanent Marker', 'Arial Black', 'Comic Sans MS', cursive" font-size="72" font-weight="bold" fill="url(#graffitiBlue)" stroke="#43155e" stroke-width="7" letter-spacing="1" transform="skewX(-10) rotate(-5 120 123)">
+        e
+      </text>
+      <!-- Внутренние тени -->
+      <text x="22" y="120" font-family="'Permanent Marker', 'Arial Black', 'Comic Sans MS', cursive" font-size="97" font-weight="bold" fill="none" stroke="#fed73a" stroke-width="2.5" letter-spacing="1" transform="skewX(-12) rotate(-3 70 120)">
+        M
+      </text>
+      <text x="103" y="123" font-family="'Permanent Marker', 'Arial Black', 'Comic Sans MS', cursive" font-size="72" font-weight="bold" fill="none" stroke="#fed73a" stroke-width="2" letter-spacing="1" transform="skewX(-10) rotate(-5 120 123)">
+        e
+      </text>
+      <!-- Имитация подтёков/капель -->
+      <ellipse cx="44" cy="140" rx="3" ry="7" fill="#10c2cd" opacity="0.6"/>
+      <ellipse cx="65" cy="127" rx="2.5" ry="6" fill="#f99e4c" opacity="0.6"/>
+      <ellipse cx="98" cy="87" rx="3" ry="10" fill="#10c2cd" opacity="0.38"/>
+      <ellipse cx="125" cy="97" rx="2" ry="7" fill="#f99e4c" opacity="0.38"/>
+      <!-- Оранжевые акценты -->
+      <rect x="45" y="115" width="13" height="6" rx="3" fill="#f99e4c" transform="rotate(-15 51 117)"/>
+      <rect x="73" y="88" width="10" height="5" rx="2" fill="#f99e4c" transform="rotate(13 78 90)"/>
+      <rect x="105" y="52" width="8" height="4" rx="2" fill="#f99e4c" transform="rotate(12 109 54)"/>
+      <rect x="115" y="105" width="12" height="5" rx="2" fill="#f99e4c" transform="rotate(7 121 107)"/>
+    </g>
+    <defs>
+      <linearGradient id="graffitiBlue" x1="40" y1="30" x2="130" y2="140" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#22d2ee"/>
+        <stop offset="0.45" stop-color="#42c6f8"/>
+        <stop offset="0.75" stop-color="#6049e7"/>
+        <stop offset="1" stop-color="#ae38e7"/>
+      </linearGradient>
+    </defs>
+  </svg>
+</template>

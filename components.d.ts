@@ -8,6 +8,10 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    BrandShortSvg: typeof import('./src/components/app-svg/BrandShortSvg.vue')['default']
+    BrandSvg: typeof import('./src/components/app-svg/BrandSvg.vue')['default']
+    BrendSvg: typeof import('./src/components/app-svg/BrendSvg.vue')['default']
+    DrandShortSvg: typeof import('./src/components/app-svg/DrandShortSvg.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
