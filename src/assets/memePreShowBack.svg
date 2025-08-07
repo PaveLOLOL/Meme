@@ -1,0 +1,49 @@
+<svg viewBox="0 0 480 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Скошенный яркий фон -->
+  <polygon points="25,170 65,35 455,25 400,190" fill="#ede2ff" stroke="#c2a7fa" stroke-width="10" opacity="0.85"></polygon>
+  <!-- Пузырьки и подтеки, дуг больше нет -->
+  <g>
+    <ellipse cx="115" cy="180" rx="19" ry="15" fill="#a0046e"></ellipse>
+    <ellipse cx="335" cy="55" rx="15" ry="15" fill="#a0046e"></ellipse>
+    <ellipse cx="425" cy="120" rx="13" ry="13" fill="#a0046e"></ellipse>
+    <ellipse cx="350" cy="155" rx="17" ry="14" fill="#a0046e"></ellipse>
+    <ellipse cx="245" cy="36" rx="12" ry="10" fill="#a0046e"></ellipse>
+    <ellipse cx="170" cy="155" rx="10" ry="10" fill="#a0046e"></ellipse>
+    <!-- блики на кружках -->
+    <ellipse cx="123" cy="170" rx="4" ry="4" fill="#fff" opacity="0.6"></ellipse>
+    <ellipse cx="335" cy="48" rx="3" ry="3" fill="#fff" opacity="0.6"></ellipse>
+    <ellipse cx="428" cy="112" rx="2.5" ry="2.5" fill="#fff" opacity="0.6"></ellipse>
+    <ellipse cx="354" cy="147" rx="2.5" ry="2.5" fill="#fff" opacity="0.6"></ellipse>
+    <ellipse cx="248" cy="30" rx="2" ry="2" fill="#fff" opacity="0.6"></ellipse>
+    <ellipse cx="175" cy="150" rx="1.8" ry="1.8" fill="#fff" opacity="0.6"></ellipse>
+  </g>
+  <!-- Граффити-текст "Meme" (тяжёлый стиль, наклон) -->
+  <g>
+    <text x="70" y="140" font-family="'Permanent Marker', 'Arial Black', 'Comic Sans MS', cursive" font-size="105" font-weight="bold" fill="url(#graffitiBlue)" stroke="#43155e" stroke-width="11" letter-spacing="3" transform="skewX(-12) rotate(-3 120 140)">
+      Meme
+    </text>
+    <!-- Яркая внутренняя тень -->
+    <text x="70" y="140" font-family="'Permanent Marker', 'Arial Black', 'Comic Sans MS', cursive" font-size="105" font-weight="bold" fill="none" stroke="#fed73a" stroke-width="4" letter-spacing="3" transform="skewX(-12) rotate(-3 120 140)">
+      Meme
+    </text>
+    <!-- Имитация подтёков/капель -->
+    <ellipse cx="105" cy="175" rx="5" ry="13" fill="#10c2cd" opacity="0.65"></ellipse>
+    <ellipse cx="155" cy="158" rx="4.5" ry="12" fill="#f99e4c" opacity="0.65"></ellipse>
+    <ellipse cx="285" cy="100" rx="6" ry="20" fill="#10c2cd" opacity="0.45"></ellipse>
+    <ellipse cx="395" cy="100" rx="3.5" ry="12" fill="#f99e4c" opacity="0.4"></ellipse>
+    <!-- Оранжевые акценты -->
+    <rect x="122" y="135" width="25" height="10" rx="5" fill="#f99e4c" transform="rotate(-20 134 137)"></rect>
+    <rect x="205" y="116" width="20" height="8" rx="3" fill="#f99e4c" transform="rotate(16 210 120)"></rect>
+    <rect x="255" y="65" width="16" height="8" rx="3" fill="#f99e4c" transform="rotate(12 260 68)"></rect>
+    <rect x="325" y="130" width="23" height="8" rx="3" fill="#f99e4c" transform="rotate(10 332 134)"></rect>
+  </g>
+  <!-- Градиент для текста -->
+  <defs>
+    <linearGradient id="graffitiBlue" x1="70" y1="40" x2="390" y2="180" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22d2ee"></stop>
+      <stop offset="0.45" stop-color="#42c6f8"></stop>
+      <stop offset="0.75" stop-color="#6049e7"></stop>
+      <stop offset="1" stop-color="#ae38e7"></stop>
+    </linearGradient>
+  </defs>
+</svg>

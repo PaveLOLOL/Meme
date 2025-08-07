@@ -1,3 +1,11 @@
 //accumulate all scss files
-@use '@/styles/colors.scss';
-@use '@/styles/style0.scss';
+@use './style0.scss';
+@use './colors.scss';
+
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-weight: normal;
+}

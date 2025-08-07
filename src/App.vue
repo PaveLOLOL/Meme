@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <Navbar />
+    <Navbar/>
     <div class="main">
       <header class="header">
         <h1>Добро пожаловать на наш сайт!</h1>
@@ -19,6 +19,15 @@
           <p>Краткое описание компании, миссия и ценности.</p>
         </section>
 
+        <Card>
+          <template #front>
+            <img src="@/assets/memePreShowFront.png" alt="Front" class="meme-card__img" />
+          </template>
+          <template #back>
+            <img src="@/assets/memePreShowBack.svg" alt="Back" class="meme-card__img" />
+          </template>
+        </Card>
+
         <section id="services">
           <h2>Наши услуги</h2>
           <ul>
@@ -33,11 +42,11 @@
           <form @submit.prevent="submitForm">
             <label>
               Имя:
-              <input v-model="form.name" required />
+              <input v-model="form.name" required/>
             </label>
             <label>
               Email:
-              <input v-model="form.email" type="email" required />
+              <input v-model="form.email" type="email" required/>
             </label>
             <label>
               Сообщение:
@@ -65,6 +74,7 @@ import {useNavBarBarStore} from "@/stores/navBarStore";
 import '@/styles/main.scss';
 
 import Navbar from '@/components/navbar/Navbar.vue'
+import Card from "@/components/cards/Card.vue";
 
 const authStore = useAuthStore();
 const navBarBarStore = useNavBarBarStore();
@@ -144,5 +154,12 @@ button {
 
 button:hover {
   background-color: #005fa3;
+}
+
+.meme-card__img {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  padding: 1px;
 }
 </style>

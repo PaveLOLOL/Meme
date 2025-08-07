@@ -1,0 +1,164 @@
+@charset "UTF-8";
+/*Обнуление (базовые теги имеют свои размеры)*/
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+*,
+*:before,
+*:after {
+  --moz-box-sizing: border-box;
+  --webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+:focus,
+:active {
+  outline: none;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+  display: block;
+}
+
+html,
+body {
+  width: 100%;
+  font-size: 100%;
+  line-height: 1;
+  font-size: 14px;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+input,
+button,
+textarea {
+  font-family: inherit;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: 400;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+* {
+  --theme: rgb(24, 54, 70);
+  --primary: hsl(166, 100%, 79%);
+  --input-normal: hsla(222, 9%, 29%, 0.5);
+  --secondary: rgb(50, 134, 158);
+  --glass: rgba(0, 0, 0, 0);
+  --white: hsl(255, 100%, 100%);
+  --col-1: hsl(220, 14%, 8%);
+  --col-2: hsl(220, 12%, 12%);
+  --col-3: hsl(223, 10%, 17%);
+  --col-4: hsl(222, 10%, 22%);
+  --col-5: hsl(220, 9%, 29%);
+  --col-6: hsl(222, 8%, 37%);
+  --col-7: hsl(222, 7%, 47%);
+  --col-8: hsl(222, 10%, 56%);
+  --col-9: hsl(222, 18%, 74%);
+  --col-10: hsl(222, 22%, 87%);
+  --mint-1: hsl(166, 100%, 87%);
+  --mint-2: hsl(166, 100%, 79%);
+  --mint-3: hsl(170, 65%, 55%);
+  --mint-4: hsl(174, 50%, 34%);
+  --mint-5: hsl(180, 38%, 22%);
+  --mint-disabled: hsla(180, 38%, 22%, 0.5);
+  --viol-1: hsl(251, 54%, 74%);
+  --viol-2: hsl(251, 35%, 58%);
+  --viol-3: hsl(251, 33%, 51%);
+  --viol-4: hsl(251, 32%, 41%);
+  --viol-5: hsl(250, 23%, 30%);
+  --viol-disabled: hsla(250, 23%, 30%, 0.5);
+  --neg-1: hsl(0, 100%, 83%);
+  --neg-2: hsl(0, 67%, 60%);
+  --neg-3: hsl(0, 63%, 46%);
+  --neg-4: hsl(0, 57%, 36%);
+  --neg-5: hsl(0, 50%, 27%);
+  --neg-disabled: hsla(360, 50%, 27%, 0.5);
+  --pos-1: hsl(144, 84%, 71%);
+  --pos-2: hsl(144, 78%, 60%);
+  --pos-3: hsl(144, 79%, 45%);
+  --pos-4: hsl(144, 70%, 32%);
+  --pos-5: hsl(144, 55%, 24%);
+  --pos-disabled: hsla(144, 55%, 24%, 0.5);
+  --warn-1: hsl(37, 100%, 75%);
+  --warn-2: hsl(37, 100%, 71%);
+  --warn-3: hsl(40, 97%, 62%);
+  --warn-4: hsl(44, 76%, 44%);
+  --warn-5: hsl(44, 73%, 31%);
+  --warn-disabled: hsla(44, 73%, 31%, 0.5);
+  --main-color: rgb(24, 26, 27);
+  --header-color: rgb(40, 43, 56);
+  --alt-color: rgb(28, 30, 31);
+  --font-color: #BFBFBF;
+  --dropdown-color: rgb(66, 67, 79);
+  --disabled-text: hsla(0, 0%, 100%, 0.3);
+}
+
+html {
+  --htmlbackground: hsl(220, 14%, 8%);
+  background-color: var(--htmlbackground);
+}
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-weight: normal;
+}
+
+/*# sourceMappingURL=main.css.map */
