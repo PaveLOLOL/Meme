@@ -38,7 +38,7 @@ function toggle() {
   z-index: 6;
   height: 100%;
   overflow-x: hidden;
-  background: var(--col-2);
+  background: var(--viol-4);
   width: 40px;
   display: flex;
   justify-content: space-between;
