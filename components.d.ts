@@ -11,6 +11,7 @@ declare module 'vue' {
     BrandShortSvg: typeof import('./src/components/app-svg/BrandShortSvg.vue')['default']
     BrandSvg: typeof import('./src/components/app-svg/BrandSvg.vue')['default']
     BrendSvg: typeof import('./src/components/app-svg/BrendSvg.vue')['default']
+    Card: typeof import('./src/components/cards/Card.vue')['default']
     DrandShortSvg: typeof import('./src/components/app-svg/DrandShortSvg.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
