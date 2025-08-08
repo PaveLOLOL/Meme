@@ -7,14 +7,19 @@ import {
 } from 'vue-router'
 
 const App = () => import('@/App.vue');
-
-import {EnumUsersRoles} from '@/types/users';
+const HomePage = () => import('@/views/HomePage.vue')
+const CardsView = () => import('@/views/CardsView')
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
-    component: App,
+    component: HomePage,
+  },
+  {
+    path: '/game',
+    name: 'game',
+    component: CardsView,
   },
 ]
 
