@@ -32,8 +32,8 @@ const cardStore = useCardStore();
 
 .meme-card {
   /* Сделали горизонтальную карту */
-  width: 192px;
-  height: 128px;
+  width: 200px;
+  height: 130px;
   position: relative;
   cursor: pointer;
   display: inline-block;

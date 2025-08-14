@@ -6,7 +6,6 @@ import {
   RouteRecordRaw
 } from 'vue-router'
 
-const App = () => import('@/App.vue');
 const HomePage = () => import('@/views/HomePage.vue')
 const CardsView = () => import('@/views/CardsView')
 
