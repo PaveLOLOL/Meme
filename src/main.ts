@@ -1,6 +1,7 @@
 import '@/styles/main.css'
 import '@/styles/colors.scss'
 
+
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
