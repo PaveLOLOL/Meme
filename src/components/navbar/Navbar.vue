@@ -16,6 +16,15 @@
       <div class="navbar__body" @click="toggle"></div>
       <div class="navbar__footer"></div>
 
+      <ul class="navbar__list">
+        <li class="navbar__item">
+          <router-link to="/game" class="navbar__link" @click.stop>Игровое пространство</router-link>
+        </li>
+        <li class="navbar__item">
+          <router-link to="/" class="navbar__link" @click.stop>Домой</router-link>
+        </li>
+      </ul>
+
     </nav>
   </div>
 </template>
@@ -50,7 +59,7 @@ function toggle() {
   background: var(--viol-4);
   width: 70px;
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
   flex-direction: column;
   gap: 22px;
   color: var(--col-8);

@@ -1,22 +1,17 @@
 <template>
-    <div class="main">
-      <header class="header">
-        <h1>Добро пожаловать на наш сайт!</h1>
-        <nav class="nav">
-          <ul>
-            <li><a href="#about">О нас</a></li>
-            <li><a href="#services">Услуги</a></li>
-            <li><a href="#contact">Контакты</a></li>
-          </ul>
-        </nav>
-      </header>
-s
-      <main class="main-content">
-        <section id="about">
-          <h2>О нашей компании</h2>
-          <p>Краткое описание компании, миссия и ценности.</p>
-        </section>
+  <div class="home-page">
+    <header class="home-page__header header">
+      <h1 class="header__title">Добро пожаловать в Meme</h1>
+      <nav class="header__nav nav">
+        <ul class="nav__list">
+          <li class="nav__item"><a href="#about" class="nav__link">О нас</a></li>
+          <li class="nav__item"><a href="#contact" class="nav__link">Контакты</a></li>
+        </ul>
+      </nav>
+    </header>
 
+    <main class="home-page__main main-content">
+      <div class="main-content__card meme-card">
         <Card>
           <template #front>
             <img src="@/assets/memePreShowFront.png" alt="Front" class="meme-card__img" />
@@ -25,45 +20,39 @@ s
             <img src="@/assets/memePreShowBack.svg" alt="Back" class="meme-card__img" />
           </template>
         </Card>
+      </div>
 
-        <section id="services">
-          <h2>Наши услуги</h2>
-          <ul>
-            <li>Услуга 1</li>
-            <li>Услуга 2</li>
-            <li>Услуга 3</li>
-          </ul>
-        </section>
+      <section id="contact" class="main-content__section contact">
+        <form class="contact__form" @submit.prevent="submitForm">
+          <label class="contact__label">
+            Имя:
+            <input class="contact__input" v-model="form.name" required />
+          </label>
+          <label class="contact__label">
+            Email:
+            <input class="contact__input" v-model="form.email" type="email" required />
+          </label>
+          <label class="contact__label">
+            Сообщение:
+            <textarea class="contact__textarea" v-model="form.message"></textarea>
+          </label>
+          <div class="contact__button-flex">
+            <button class="contact__submit" type="submit">Отправить</button>
+          </div>
+        </form>
+      </section>
+    </main>
 
-        <section id="contact">
-          <h2>Связаться с нами</h2>
-          <form @submit.prevent="submitForm">
-            <label>
-              Имя:
-              <input v-model="form.name" required/>
-            </label>
-            <label>
-              Email:
-              <input v-model="form.email" type="email" required/>
-            </label>
-            <label>
-              Сообщение:
-              <textarea v-model="form.message" required></textarea>
-            </label>
-            <button type="submit">Отправить</button>
-          </form>
-        </section>
-      </main>
-
-      <footer class="footer">
-        <p>© 2025 Моя Компания. Все права защищены.</p>
-      </footer>
-    </div>
+    <footer class="home-page__footer footer">
+      <p class="footer__copyright">© 2025 Компания SatoshiTadoshi. Все права защищены.</p>
+    </footer>
+  </div>
 </template>
 
 
 <script setup lang="ts">
 import {reactive} from 'vue';
+import { useRouter } from 'vue-router'
 
 import '@/styles/main.scss';
 import Card from "@/components/cards/Card.vue";
@@ -74,17 +63,28 @@ const form = reactive({
   message: ''
 })
 
+const router = useRouter()
+
 function submitForm() {
-  alert(`Спасибо, ${form.name}! Ваше сообщение отправлено.`)
+
+  if (form.name != '' && form.email != '') {
+    router.push('/game')
+  }
+
+  alert(`Приятно познакомится, ${form.name}! Теперь ты участник Meme.`)
   form.name = ''
   form.email = ''
   form.message = ''
 }
+
+
 </script>
 
 
 <style lang="scss">
-.header, .footer {
+
+.home-page__header,
+.home-page__footer {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -93,46 +93,92 @@ function submitForm() {
   text-align: center;
 }
 
-.nav ul {
+.header__title {
+  margin-bottom: 16px;
+}
+
+.header__nav {
+  // пусто, если нужны стили — допиши
+}
+
+.nav__list {
   list-style: none;
   padding: 0;
   display: flex;
-  gap: 1rem;
+  gap: 16px;
   justify-content: center;
+  margin: 0;
 }
 
-.nav a {
+.nav__item {
+  // пусто, если нужны стили — допиши
+}
+
+.nav__link {
   text-decoration: none;
   color: #007acc;
+  transition: color 0.2s;
+  &:hover {
+    color: #005fa3;
+  }
 }
 
-.main-content section {
-  margin-bottom: 2rem;
+.main-content {
+  padding: 32px 0;
 }
 
-form label {
+.main-content__section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.services__title,
+.contact__title {
+  margin-bottom: 8px;
+}
+
+.services__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.contact__form {
+  margin-top: 16px;
+}
+
+.contact__label {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 8px;
 }
 
-form input, form textarea {
+.contact__input,
+.contact__textarea {
   width: 100%;
-  padding: 0.5rem;
-  margin-top: 0.25rem;
-  margin-bottom: 1rem;
+  padding: 8px;
+  margin-top: 4px;
+  margin-bottom: 16px;
   box-sizing: border-box;
+  font: inherit;
 }
 
-button {
+.contact__submit {
   background-color: #007acc;
   color: white;
   border: none;
-  padding: 0.75rem 1.5rem;
+  padding: 12px 24px;
   cursor: pointer;
+  font: inherit;
+  border-radius: 3px;
+  transition: background 0.2s;
+  &:hover {
+    background-color: #005fa3;
+  }
 }
 
-button:hover {
-  background-color: #005fa3;
+.footer__copyright {
+  margin: 0;
 }
 
 .meme-card__img {
@@ -141,4 +187,10 @@ button:hover {
   display: block;
   padding: 1px;
 }
+
+.contact__button-flex {
+  display: flex;
+  justify-content: end;
+}
+
 </style>
