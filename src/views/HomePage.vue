@@ -12,14 +12,12 @@
 
     <main class="home-page__main main-content">
       <div class="main-content__card meme-card">
-        <Card>
-          <template #front>
-            <img src="@/assets/memePreShowFront.png" alt="Front" class="meme-card__img" />
-          </template>
-          <template #back>
-            <img src="@/assets/memePreShowBack.svg" alt="Back" class="meme-card__img" />
-          </template>
-        </Card>
+        <Card
+          :srcFrontImg="allCardsStore.$state.previewCard.srcFrontImg"
+          :srcBackImg="allCardsStore.$state.previewCard.srcBackImg"
+          :cardId="allCardsStore.$state.previewCard.id"
+          :isFlipped="allCardsStore.$state.previewCard.flipped"
+        />
       </div>
 
       <section id="contact" class="main-content__section contact">
@@ -51,11 +49,13 @@
 
 
 <script setup lang="ts">
-import {reactive} from 'vue';
+import { reactive } from 'vue';
 import { useRouter } from 'vue-router'
 
 import '@/styles/main.scss';
 import Card from "@/components/cards/Card.vue";
+import {useAllCardsStore} from "@/stores/cards";
+
 
 const form = reactive({
   name: '',
@@ -64,6 +64,8 @@ const form = reactive({
 })
 
 const router = useRouter()
+
+const allCardsStore = useAllCardsStore()
 
 function submitForm() {
 
@@ -179,13 +181,6 @@ function submitForm() {
 
 .footer__copyright {
   margin: 0;
-}
-
-.meme-card__img {
-  max-width: 100%;
-  max-height: 100%;
-  display: block;
-  padding: 1px;
 }
 
 .contact__button-flex {

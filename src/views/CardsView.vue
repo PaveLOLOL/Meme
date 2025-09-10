@@ -5,11 +5,27 @@
         <div class="table" id="meme-table">
 <!--          todo добавить id для тестирования для всех элементов-->
           <div class="table__zone-cards-meme">zone_cards_meme
-            <div class="table__zone-cards-meme-card-holder-meme">
-              zone-cards-meme-card-holder
+            <div
+              v-for="meme in allCardsStore.$state.cardsMeme"
+              class="table__zone-cards-meme-card-holder-meme"
+            >
+              <Card
+                :srcFrontImg="meme.srcFrontImg"
+                :srcBackImg="meme.srcBackImg"
+                :cardId="meme.id"
+                :isFlipped="meme.flipped"
+              />
             </div>
-            <div class="table__zone-cards-meme-card-holder-situation">
-              zone-cards-meme-card-holder
+            <div
+              class="table__zone-cards-meme-card-holder-situation"
+              v-for="situation in allCardsStore.$state.cardsSituation"
+            >
+              <Card
+                :srcFrontImg="situation.descriptionOne"
+                :srcBackImg="situation.descriptionTwo"
+                :cardId="situation.id"
+                :isFlipped="situation.flipped"
+              />
             </div>
           </div>
           <div class="table__zone-game-place">zone_game_place</div>
@@ -28,7 +44,12 @@
 </template>
 
 <script setup lang="ts">
-import BaseLayout from '@/layouts/BaseLayout.vue';
+import BaseLayout from '@/layouts/BaseLayout.vue'
+import Card from '@/components/cards/Card.vue'
+
+import { useAllCardsStore } from "@/stores/cards"
+
+const allCardsStore = useAllCardsStore()
 </script>
 
 <style lang="scss" scoped>
