@@ -13,14 +13,14 @@ export const useAllCardsStore = defineStore('allCardsStore', {
       srcBackImg: memePreShowBack
     },
     cardsMeme: [{
-      id: '1',
+      id: crypto.randomUUID(),
       title: 'Имя карты (название карты мема)',
       srcFrontImg: 'путь до картинки (рубашка)',
       srcBackImg: 'путь до картинки (мем)',
       flipped: false
     }],
     cardsSituation: [{
-      id: '2',
+      id: crypto.randomUUID(),
       title: 'Имя карты (название карты ситуации)',
       descriptionOne: 'Описание карты (только для ситуации 1)',
       descriptionTwo: 'Описание карты (только для ситуации 2)',

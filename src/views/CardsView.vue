@@ -14,6 +14,8 @@
                 :srcBackImg="meme.srcBackImg"
                 :cardId="meme.id"
                 :isFlipped="meme.flipped"
+                draggable="true"
+                @dragstart="onCardDragStart(meme.id, $event)"
               />
             </div>
             <div
@@ -30,13 +32,15 @@
           </div>
           <div class="table__zone-game-place">
             <div class="table__zone-game-place common-area">Верх (общая зона)</div>
-            <div class="table__zone-game-place playing-card-area grid-playing-card-area">
-              <div class="grid-playing-card-area__item">1</div>
-              <div class="grid-playing-card-area__item">2</div>
-              <div class="grid-playing-card-area__item">3</div>
-              <div class="grid-playing-card-area__item">4</div>
-              <div class="grid-playing-card-area__item">5</div>
-              <div class="grid-playing-card-area__item">6</div>
+            <div class="table__zone-game-place playing-card-area grid-playing-card-area"
+            >
+              <div
+                v-for="(cell, i) in cells"
+                :key="i"
+                @dragover.prevent
+                @drop="onDrop(i, $event)"
+                class="grid-playing-card-area__item"
+              >{{cell}}</div>
             </div>
           </div>
           <div class="table__zone-discard-pile">zone_discard_pile
@@ -58,8 +62,29 @@ import BaseLayout from '@/layouts/BaseLayout.vue'
 import Card from '@/components/cards/Card.vue'
 
 import { useAllCardsStore } from "@/stores/cards"
+import { ref } from "vue"
 
 const allCardsStore = useAllCardsStore()
+
+
+// 6 ячеек (3x2), null = пустая
+const cells = ref<(string | null)[]>([null, null, null, null, null, null])
+
+function onCardDragStart(id: string, event: DragEvent) {
+  if (event.dataTransfer) {
+    event.dataTransfer.setData("text/plain", id)
+  }
+}
+
+function onDrop(index: number, event: DragEvent) {
+  if (!event.dataTransfer) return
+  const id = event.dataTransfer.getData("text/plain")
+
+  // если ячейка пустая — кладём id
+  if (cells.value[index] === null) {
+    cells.value[index] = id
+  }
+}
 </script>
 
 <style lang="scss" scoped>
