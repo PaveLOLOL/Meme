@@ -6,10 +6,12 @@
       @click="allCardsStore.flipCard(props.cardId)"
     >
       <div class="meme-card__face meme-card__face--front">
-        <img :src="srcFrontImg" :alt="altFront" class="meme-card__img front-img__img"/>
+        <span v-if="props.descriptionOne" class="meme-card__description">{{props.descriptionOne}}</span>
+        <img v-else :src="srcFrontImg" :alt="altFront" class="meme-card__img front-img__img"/>
       </div>
       <div class="meme-card__face meme-card__face--back">
-        <img :src="srcBackImg" :alt="altBack" class="meme-card__img back-img__img"/>
+        <span v-if="props.descriptionTwo" class="meme-card__description">{{props.descriptionTwo}}</span>
+        <img v-else :src="srcBackImg" :alt="altBack" class="meme-card__img back-img__img"/>
       </div>
     </div>
   </div>
@@ -40,6 +42,14 @@ const props = defineProps({
     type: String,
     required: false,
   },
+  descriptionOne: {
+    type: String,
+    required: false,
+  },
+  descriptionTwo: {
+    type: String,
+    required: false,
+  },
   altFront: {
     type: String,
     required: false,
@@ -67,6 +77,7 @@ const isDefaultCard = computed(() => {
 .deck {
   display: flex;
   justify-content: center;
+
 }
 
 .meme-card {
@@ -136,5 +147,14 @@ const isDefaultCard = computed(() => {
   max-height: 100%;
   padding: 1px;
   object-fit: contain;
+}
+
+.meme-card__description {
+  text-indent: 20px;
+  word-break: normal;
+  overflow-wrap: normal;
+  padding: 1px;
+  font-size: x-large;
+  font-weight: lighter;
 }
 </style>

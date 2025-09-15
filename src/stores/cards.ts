@@ -38,7 +38,7 @@ export const useAllCardsStore = defineStore('allCardsStore', {
         card.flipped = !card.flipped
         return
       }
-      card = this.cardsSituation.find(car => car.id === id)
+      card = this.cardsSituation.find(card => card.id === id)
       if (card) {
         card.flipped = !card.flipped
         return
@@ -54,7 +54,7 @@ export const useAllCardsStore = defineStore('allCardsStore', {
         card.flipped = !!value
         return
       }
-      card = this.cardsSituation.find(c => c.id === id)
+      card = this.cardsSituation.find(card => card.id === id)
       if (card) {
         card.flipped = !!value
         return
