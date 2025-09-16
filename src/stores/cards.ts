@@ -2,7 +2,6 @@ import { defineStore } from 'pinia';
 import memePreShowFront from "@/assets/memePreShowFront.png";
 import memePreShowBack from "@/assets/memePreShowBack.svg"
 
-
 export const useAllCardsStore = defineStore('allCardsStore', {
   state: () => ({
     // Список всех карт
@@ -64,6 +63,9 @@ export const useAllCardsStore = defineStore('allCardsStore', {
       this.previewCard.flipped = false
       this.cardsMeme.forEach(c => c.flipped = false)
       this.cardsSituation.forEach(c => c.flipped = false)
+    },
+    getCardMemeById(id: string) {
+      return this.cardsMeme.find(card => card.id === id) || null;
     }
   }
 });

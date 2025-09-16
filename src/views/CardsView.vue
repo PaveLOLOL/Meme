@@ -15,7 +15,7 @@
                 :cardId="meme.id"
                 :isFlipped="meme.flipped"
                 draggable="true"
-                @dragstart="onCardDragStart(meme.id, $event)"
+                @dragstart="onCardDragStart(meme, $event)"
               />
             </div>
             <div
@@ -40,7 +40,15 @@
                 @dragover.prevent
                 @drop="onDrop(i, $event)"
                 class="grid-playing-card-area__item"
-              >{{cell}}</div>
+              >
+                <Card
+                  v-if="cellCards[i]"
+                  :srcFrontImg="cellCards[i]?.srcFrontImg"
+                  :srcBackImg="cellCards[i]?.srcBackImg"
+                  :cardId="cellCards[i]?.id"
+                  :isFlipped="cellCards[i]?.flipped"
+                />
+              </div>
             </div>
           </div>
           <div class="table__zone-discard-pile">zone_discard_pile
@@ -62,7 +70,9 @@ import BaseLayout from '@/layouts/BaseLayout.vue'
 import Card from '@/components/cards/Card.vue'
 
 import { useAllCardsStore } from "@/stores/cards"
-import { ref } from "vue"
+import { ref, computed } from "vue"
+
+import {cardsMeme} from "@/types/card";
 
 const allCardsStore = useAllCardsStore()
 
@@ -70,21 +80,29 @@ const allCardsStore = useAllCardsStore()
 // 6 ячеек (3x2), null = пустая
 const cells = ref<(string | null)[]>([null, null, null, null, null, null])
 
-function onCardDragStart(id: string, event: DragEvent) {
+function onCardDragStart(card: cardsMeme, event: DragEvent) {
   if (event.dataTransfer) {
-    event.dataTransfer.setData("text/plain", id)
+    event.dataTransfer.setData("text/plain", card.id)
   }
 }
 
 function onDrop(index: number, event: DragEvent) {
   if (!event.dataTransfer) return
-  const id = event.dataTransfer.getData("text/plain")
+  const id = event.dataTransfer?.getData("text/plain")
+  if (!id) return
 
   // если ячейка пустая — кладём id
   if (cells.value[index] === null) {
     cells.value[index] = id
   }
 }
+
+const cellCards = computed(() => {
+  return cells.value.map(cellId =>
+    cellId ? allCardsStore.getCardMemeById(cellId) : null
+  )
+})
+
 </script>
 
 <style lang="scss" scoped>
