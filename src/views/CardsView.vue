@@ -31,7 +31,20 @@
             </div>
           </div>
           <div class="table__zone-game-place">
-            <div class="table__zone-game-place common-area">Верх (общая зона)</div>
+            <div
+              @dragover.prevent
+              @drop="onDropCommonArea($event)"
+              class="table__zone-game-place common-area"
+            >
+              {{cardsOnCommonArea}}
+              <Card
+                v-if="cardsOnCommonArea.at(0)"
+                :srcFrontImg="cardsOnCommonArea.at(0)?.srcFrontImg"
+                :srcBackImg="cardsOnCommonArea.at(0)?.srcBackImg"
+                :cardId="cardsOnCommonArea.at(0)?.id"
+                :isFlipped="true"
+              />
+              Верх (общая зона) {{cardsOnCommonArea.at(0)}}</div>
             <div class="table__zone-game-place playing-card-area grid-playing-card-area"
             >
               <div
@@ -47,6 +60,8 @@
                   :srcBackImg="cellCards[i]?.srcBackImg"
                   :cardId="cellCards[i]?.id"
                   :isFlipped="cellCards[i]?.flipped"
+                  draggable="true"
+                  @dragstart="onCardDragStart(cellCards[i], $event)"
                 />
               </div>
             </div>
@@ -79,6 +94,7 @@ const allCardsStore = useAllCardsStore()
 
 // 6 ячеек (3x2), null = пустая
 const cells = ref<(string | null)[]>([null, null, null, null, null, null])
+const cardsOnCommonArea = ref<(string | null)[]>([])
 
 function onCardDragStart(card: cardsMeme, event: DragEvent) {
   if (event.dataTransfer) {
@@ -94,6 +110,18 @@ function onDrop(index: number, event: DragEvent) {
   // если ячейка пустая — кладём id
   if (cells.value[index] === null) {
     cells.value[index] = id
+  }
+}
+
+function onDropCommonArea(event: DragEvent) {
+  console.log('log')
+  if (!event.dataTransfer) return
+  const id = event.dataTransfer?.getData("text/plain")
+  if (!id) return
+
+  // если такая карта есть в сторе то отправляем ее на стол
+  if (allCardsStore.getCardMemeById(id)) {
+    cardsOnCommonArea.value.push(id)
   }
 }
 
