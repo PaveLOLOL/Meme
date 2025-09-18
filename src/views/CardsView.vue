@@ -32,19 +32,24 @@
           </div>
           <div class="table__zone-game-place">
             <div
+              class="table__zone-game-place common-area"
               @dragover.prevent
               @drop="onDropCommonArea($event)"
-              class="table__zone-game-place common-area"
             >
-              {{cardsOnCommonArea}}
-              <Card
-                v-if="cardsOnCommonArea.at(0)"
-                :srcFrontImg="cardsOnCommonArea.at(0)?.srcFrontImg"
-                :srcBackImg="cardsOnCommonArea.at(0)?.srcBackImg"
-                :cardId="cardsOnCommonArea.at(0)?.id"
-                :isFlipped="true"
-              />
-              Верх (общая зона) {{cardsOnCommonArea.at(0)}}</div>
+              <div
+                v-for="card in cardsOnCommonArea"
+                :key="card.id"
+                class="draggable-card"
+                :style="{ top: card.y + 'px', left: card.x + 'px' }"
+              >
+                <Card
+                  :srcFrontImg="getCardData(card.id)?.srcFrontImg"
+                  :srcBackImg="getCardData(card.id)?.srcBackImg"
+                  :cardId="card.id"
+                  :isFlipped="true"
+                />
+              </div>
+            </div>
             <div class="table__zone-game-place playing-card-area grid-playing-card-area"
             >
               <div
@@ -94,7 +99,7 @@ const allCardsStore = useAllCardsStore()
 
 // 6 ячеек (3x2), null = пустая
 const cells = ref<(string | null)[]>([null, null, null, null, null, null])
-const cardsOnCommonArea = ref<(string | null)[]>([])
+const cardsOnCommonArea = ref<{ id: string; x: number; y: number }[]>([])
 
 function onCardDragStart(card: cardsMeme, event: DragEvent) {
   if (event.dataTransfer) {
@@ -114,14 +119,33 @@ function onDrop(index: number, event: DragEvent) {
 }
 
 function onDropCommonArea(event: DragEvent) {
-  console.log('log')
   if (!event.dataTransfer) return
-  const id = event.dataTransfer?.getData("text/plain")
+  const id = event.dataTransfer.getData("text/plain")
   if (!id) return
 
-  // если такая карта есть в сторе то отправляем ее на стол
+  const rect = (event.currentTarget as HTMLElement).getBoundingClientRect()
+
+  // размеры карты
+  const cardW = 210
+  const cardH = 140
+
+  // координаты курсора внутри контейнера
+  let x = event.clientX - rect.left - cardW / 2
+  let y = event.clientY - rect.top - cardH / 2
+
+
+  // размеры контейнера
+  const maxX = rect.width - cardW
+  const maxY = rect.height - cardH
+
+  // зажимаем значения
+  if (x < 0) x = 0
+  if (y < 0) y = 0
+  if (x > maxX) x = maxX
+  if (y > maxY) y = maxY
+
   if (allCardsStore.getCardMemeById(id)) {
-    cardsOnCommonArea.value.push(id)
+    cardsOnCommonArea.value.push({ id, x, y })
   }
 }
 
@@ -130,6 +154,10 @@ const cellCards = computed(() => {
     cellId ? allCardsStore.getCardMemeById(cellId) : null
   )
 })
+
+function getCardData(id: string) {
+  return allCardsStore.getCardMemeById(id)
+}
 
 </script>
 
@@ -184,7 +212,17 @@ $card-h: 140px;
     flex-direction: column;
 
     .common-area {
+      position: relative;
       background-color: lavender;
+      width: 100%;
+      height: 300px;
+    }
+
+    .draggable-card {
+      position: absolute;
+      width: 210px;
+      height: 140px;
+      cursor: grab;
     }
 
     .playing-card-area {
