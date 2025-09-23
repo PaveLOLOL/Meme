@@ -21,12 +21,14 @@
             <div
               class="table__zone-cards-meme-card-holder-situation"
               v-for="situation in allCardsStore.$state.cardsSituation"
+              :key="situation.id"
             >
               <Card
                 :descriptionOne="situation.descriptionOne"
                 :descriptionTwo="situation.descriptionTwo"
                 :cardId="situation.id"
                 :isFlipped="situation.flipped"
+                :ref="setSituationRef(situation.id)"
               />
             </div>
           </div>
@@ -41,6 +43,7 @@
                 :key="card.id"
                 class="draggable-card"
                 :style="{ top: card.y + 'px', left: card.x + 'px' }"
+                :ref="setCardRef(card.id)"
               >
                 <Card
                   :srcFrontImg="getCardData(card.id)?.srcFrontImg"
@@ -59,8 +62,8 @@
                 @drop="onDrop(i, $event)"
                 class="grid-playing-card-area__item"
               >
+                <div v-if="cellCards[i]" class="motion-wrap">
                 <Card
-                  v-if="cellCards[i]"
                   :srcFrontImg="cellCards[i]?.srcFrontImg"
                   :srcBackImg="cellCards[i]?.srcBackImg"
                   :cardId="cellCards[i]?.id"
@@ -68,11 +71,15 @@
                   draggable="true"
                   @dragstart="onCardDragStart(cellCards[i], $event)"
                 />
+                </div>
               </div>
             </div>
           </div>
           <div class="table__zone-discard-pile">zone_discard_pile
-            <div class="table__zone-cards-meme-card-holder-discard-pile-meme">
+            <div
+              class="table__zone-cards-meme-card-holder-discard-pile-meme"
+              ref="discardMemeRef"
+            >
               <Card
                 :srcFrontImg="allCardsStore.$state.previewCard.srcFrontImg"
                 :srcBackImg="allCardsStore.$state.previewCard.srcBackImg"
@@ -80,7 +87,10 @@
                 :isFlipped="false"
               />
             </div>
-            <div class="table__zone-cards-meme-card-holder-discard-pile-situation">
+            <div
+              class="table__zone-cards-meme-card-holder-discard-pile-situation"
+              ref="discardSituationRef"
+            >
               <Card
                 :srcFrontImg="allCardsStore.$state.defaultSituationCard.srcFrontImg"
                 :srcBackImg="allCardsStore.$state.defaultSituationCard.srcBackImg"
@@ -121,6 +131,34 @@ const allCardsStore = useAllCardsStore()
 
 // 6 ячеек (3x2), null = пустая
 const cells = ref<(string | null)[]>([null, null, null, null, null, null])
+
+// для карт из общей зоны (мемы)
+const cardRefs = ref(new Map<string, HTMLElement>())
+function setCardRef(id: string) {
+  return (el: any) => {
+    if (el) cardRefs.value.set(id, el.$el ?? el as HTMLElement)
+    else cardRefs.value.delete(id)
+  }
+}
+function getCardRef(id: string) {
+  return cardRefs.value.get(id)
+}
+
+// для situation-карт
+const situationRefs = ref(new Map<string, HTMLElement>())
+function setSituationRef(id: string) {
+  return (el: any) => {
+    if (el) situationRefs.value.set(id, el.$el ?? el as HTMLElement)
+    else situationRefs.value.delete(id)
+  }
+}
+function getSituationRef(id: string) {
+  return situationRefs.value.get(id)
+}
+
+// для зон сброса
+const discardMemeRef = ref<HTMLElement | null>(null)
+const discardSituationRef = ref<HTMLElement | null>(null)
 
 function onCardDragStart(card: cardsMeme, event: DragEvent) {
   if (event.dataTransfer) {
@@ -201,13 +239,63 @@ function handleAction(button: { label: string; type: string }) {
       break
 
     case 'Сброс':
-      allCardsStore.discardPileCardHolderMeme.push(...allCardsStore.cardsOnCommonArea)
-      allCardsStore.cardsOnCommonArea = []
-      allCardsStore.discardPileCardHolderSituation.push(allCardsStore.cardsSituation.at(0))
-      console.log('жмяк', allCardsStore.discardPileCardHolderSituation)
+      resetAllCards()
       break
   }
 }
+
+function resetAllCards() {
+  if (!discardMemeRef.value || !discardSituationRef.value) return
+
+  const dzRectMeme = discardMemeRef.value.getBoundingClientRect()
+  const dzRectSituation = discardSituationRef.value.getBoundingClientRect()
+
+  // мемы
+  allCardsStore.cardsOnCommonArea.forEach(card => {
+    const el = getCardRef(card.id)
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    animateFly(el, rect, dzRectMeme)
+  })
+
+  // ситуации
+  const situation = allCardsStore.cardsSituation.at(0)
+  if (situation) {
+    const el = getSituationRef(situation.id)
+    if (el) {
+      const rect = el.getBoundingClientRect()
+      animateFly(el, rect, dzRectSituation)
+    }
+  }
+
+  setTimeout(() => {
+    allCardsStore.discardPileCardHolderMeme.push(...allCardsStore.cardsOnCommonArea)
+    allCardsStore.cardsOnCommonArea = []
+    allCardsStore.discardPileCardHolderSituation.push(allCardsStore.cardsSituation.at(0))
+    cells.value = [null, null, null, null, null, null]
+  }, 500)
+}
+
+
+
+
+function animateFly(el: HTMLElement, from: DOMRect, to: DOMRect) {
+  const deltaX = to.left + to.width / 2 - (from.left + from.width / 2)
+  const deltaY = to.top + to.height / 2 - (from.top + from.height / 2)
+
+  el.animate(
+    [
+      { transform: 'translate(0, 0)', opacity: 1 },
+      { transform: `translate(${deltaX}px, ${deltaY}px) scale(0.5)`, opacity: 0.5 }
+    ],
+    {
+      duration: 500,
+      easing: 'ease-in-out',
+      fill: 'forwards'
+    }
+  )
+}
+
 
 </script>
 
