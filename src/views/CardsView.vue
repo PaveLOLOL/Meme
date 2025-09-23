@@ -94,9 +94,10 @@
       <template #control-panel>
         <ControlPanel
           :buttons="[
-            { label: 'Сброс', type: 'primary' },
-            { label: 'Режим судьи', type: 'secondary' },
-            { label: 'Раздать автоматически', type: 'danger' }
+            { label: 'Режим судьи', type: 'judge-mode' },
+            { label: 'Режим игрока', type: 'player-mode' },
+            { label: 'Раздать автоматически', type: 'card-distribution' },
+            { label: 'Сброс', type: 'card-reset' }
             ]"
           @action="handleAction"
         />
@@ -187,19 +188,23 @@ function getCardData(id: string) {
 function handleAction(button: { label: string; type: string }) {
   console.log('Нажата кнопка:', button.label, 'тип:', button.type)
   switch(button.label) {
-    case 'Сброс':
-      allCardsStore.discardPileCardHolderMeme.push(...allCardsStore.cardsOnCommonArea)
-      allCardsStore.cardsOnCommonArea = []
-      allCardsStore.discardPileCardHolderSituation.push(allCardsStore.cardsSituation.at(0))
-      console.log('жмяк', allCardsStore.discardPileCardHolderSituation)
+    case 'Режим судьи':
+
       break
 
-    case 'Режим судьи':
+    case 'Режим игрока':
 
       break
 
     case 'Раздать автоматически':
 
+      break
+
+    case 'Сброс':
+      allCardsStore.discardPileCardHolderMeme.push(...allCardsStore.cardsOnCommonArea)
+      allCardsStore.cardsOnCommonArea = []
+      allCardsStore.discardPileCardHolderSituation.push(allCardsStore.cardsSituation.at(0))
+      console.log('жмяк', allCardsStore.discardPileCardHolderSituation)
       break
   }
 }

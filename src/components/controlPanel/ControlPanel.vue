@@ -15,7 +15,7 @@
 <script setup lang="ts">
 interface ButtonItem {
   label: string
-  type: 'primary' | 'secondary' | 'danger'
+  type: 'card-reset' | 'judge-mode' | 'player-mode' | 'card-distribution'
 }
 
 defineProps<{
@@ -58,16 +58,20 @@ function onClick(btn: ButtonItem) {
       box-shadow: 0 0 #6a0dad;
     }
 
-    &--primary {
+    &--card-reset {
       background: linear-gradient(to bottom, #d36eff, #a64dff);
     }
 
-    &--secondary {
+    &--judge-mode {
       background: linear-gradient(to bottom, #6effd3, #4da6ff);
     }
 
-    &--danger {
+    &--player-mode {
       background: linear-gradient(to bottom, #ff6e6e, #ff4d4d);
+    }
+
+    &--card-distribution {
+      background: linear-gradient(to bottom, #6ecbff, #4da6ff);
     }
   }
 }
