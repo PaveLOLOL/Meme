@@ -1,6 +1,13 @@
 import { defineStore } from 'pinia';
 import memePreShowFront from "@/assets/memePreShowFront.png";
 import memePreShowBack from "@/assets/memePreShowBack.svg"
+import situationPreFrontBack from "@/assets/situationsSvg.svg"
+
+type CommonAreaCard = {
+  id: string
+  x: number
+  y: number
+}
 
 export const useAllCardsStore = defineStore('allCardsStore', {
   state: () => ({
@@ -10,6 +17,12 @@ export const useAllCardsStore = defineStore('allCardsStore', {
       flipped: false,
       srcFrontImg: memePreShowFront,
       srcBackImg: memePreShowBack
+    },
+    defaultSituationCard: {
+      id: 'defaultSituation',
+      flipped: false,
+      srcFrontImg: situationPreFrontBack,
+      srcBackImg: situationPreFrontBack
     },
     cardsMeme: [{
       id: crypto.randomUUID(),
@@ -25,6 +38,9 @@ export const useAllCardsStore = defineStore('allCardsStore', {
       descriptionTwo: 'Описание карты (только для ситуации 2)',
       flipped: false
     }],
+    cardsOnCommonArea: [] as CommonAreaCard[],
+    discardPileCardHolderMeme: [],
+    discardPileCardHolderSituation: []
   }),
   actions: {
     flipCard(id) {

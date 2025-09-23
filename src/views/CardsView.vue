@@ -3,7 +3,7 @@
     <BaseLayout>
       <template #content>
         <div class="table" id="meme-table">
-<!--          todo добавить id для тестирования для всех элементов-->
+          <!--          todo добавить id для тестирования для всех элементов-->
           <div class="table__zone-cards-meme">zone_cards_meme
             <div
               v-for="meme in allCardsStore.$state.cardsMeme"
@@ -37,7 +37,7 @@
               @drop="onDropCommonArea($event)"
             >
               <div
-                v-for="card in cardsOnCommonArea"
+                v-for="card in allCardsStore.cardsOnCommonArea"
                 :key="card.id"
                 class="draggable-card"
                 :style="{ top: card.y + 'px', left: card.x + 'px' }"
@@ -73,13 +73,33 @@
           </div>
           <div class="table__zone-discard-pile">zone_discard_pile
             <div class="table__zone-cards-meme-card-holder-discard-pile-meme">
-              zone-cards-meme-card-holder
+              <Card
+                :srcFrontImg="allCardsStore.$state.previewCard.srcFrontImg"
+                :srcBackImg="allCardsStore.$state.previewCard.srcBackImg"
+                :cardId="allCardsStore.$state.previewCard.id"
+                :isFlipped="false"
+              />
             </div>
             <div class="table__zone-cards-meme-card-holder-discard-pile-situation">
-              zone-cards-meme-card-holder
+              <Card
+                :srcFrontImg="allCardsStore.$state.defaultSituationCard.srcFrontImg"
+                :srcBackImg="allCardsStore.$state.defaultSituationCard.srcBackImg"
+                :cardId="allCardsStore.$state.defaultSituationCard.id"
+                :isFlipped="false"
+              />
             </div>
           </div>
         </div>
+      </template>
+      <template #control-panel>
+        <ControlPanel
+          :buttons="[
+            { label: 'Сброс', type: 'primary' },
+            { label: 'Режим судьи', type: 'secondary' },
+            { label: 'Раздать автоматически', type: 'danger' }
+            ]"
+          @action="handleAction"
+        />
       </template>
     </BaseLayout>
   </div>
@@ -88,9 +108,10 @@
 <script setup lang="ts">
 import BaseLayout from '@/layouts/BaseLayout.vue'
 import Card from '@/components/cards/Card.vue'
+import ControlPanel from '@/components/controlPanel/ControlPanel.vue'
 
-import { useAllCardsStore } from "@/stores/cards"
-import { ref, computed } from "vue"
+import {useAllCardsStore} from "@/stores/cards"
+import {ref, computed} from "vue"
 
 import {cardsMeme} from "@/types/card";
 
@@ -99,7 +120,6 @@ const allCardsStore = useAllCardsStore()
 
 // 6 ячеек (3x2), null = пустая
 const cells = ref<(string | null)[]>([null, null, null, null, null, null])
-const cardsOnCommonArea = ref<{ id: string; x: number; y: number }[]>([])
 
 function onCardDragStart(card: cardsMeme, event: DragEvent) {
   if (event.dataTransfer) {
@@ -145,7 +165,12 @@ function onDropCommonArea(event: DragEvent) {
   if (y > maxY) y = maxY
 
   if (allCardsStore.getCardMemeById(id)) {
-    cardsOnCommonArea.value.push({ id, x, y })
+    allCardsStore.cardsOnCommonArea.push({id, x, y})
+    cells.value.forEach((elId, index) => {
+      if (elId === id) {
+        cells.value[index] = null
+      }
+    })
   }
 }
 
@@ -157,6 +182,26 @@ const cellCards = computed(() => {
 
 function getCardData(id: string) {
   return allCardsStore.getCardMemeById(id)
+}
+
+function handleAction(button: { label: string; type: string }) {
+  console.log('Нажата кнопка:', button.label, 'тип:', button.type)
+  switch(button.label) {
+    case 'Сброс':
+      allCardsStore.discardPileCardHolderMeme.push(...allCardsStore.cardsOnCommonArea)
+      allCardsStore.cardsOnCommonArea = []
+      allCardsStore.discardPileCardHolderSituation.push(allCardsStore.cardsSituation.at(0))
+      console.log('жмяк', allCardsStore.discardPileCardHolderSituation)
+      break
+
+    case 'Режим судьи':
+
+      break
+
+    case 'Раздать автоматически':
+
+      break
+  }
 }
 
 </script>
@@ -180,11 +225,12 @@ $card-h: 140px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex: 0 0 calc((100% - 2*16px) / 4);
+    flex: 0 0 calc((100% - 2 * 16px) / 4);
     gap: 16px;
-    border-radius:  16px 0 0 16px;
+    border-radius: 16px 0 0 16px;
     background-color: green;
   }
+
   &__zone-cards-meme-card-holder-meme {
     display: flex;
     justify-content: center;
@@ -193,6 +239,7 @@ $card-h: 140px;
     height: $card-h;
     background-color: pink;
   }
+
   &__zone-cards-meme-card-holder-situation {
     display: flex;
     justify-content: center;
@@ -205,7 +252,7 @@ $card-h: 140px;
 
   &__zone-game-place {
     background-color: blue;
-    flex: 0 0 calc((100% - 2*16px) / 2);
+    flex: 0 0 calc((100% - 2 * 16px) / 2);
     margin-top: 5px;
     margin-bottom: 5px;
     display: flex;
@@ -238,16 +285,24 @@ $card-h: 140px;
     justify-content: center;
     align-items: center;
     gap: 16px;
-    flex: 0 0 calc((100% - 2*16px) / 4);
-    border-radius:  0 16px 16px 0;
+    flex: 0 0 calc((100% - 2 * 16px) / 4);
+    border-radius: 0 16px 16px 0;
     background-color: yellow;
   }
+
   &__zone-cards-meme-card-holder-discard-pile-meme {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: $card-w;
     height: $card-h;
     background-color: violet;
   }
+
   &__zone-cards-meme-card-holder-discard-pile-situation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: $card-w;
     height: $card-h;
     background-color: coral;
@@ -256,9 +311,9 @@ $card-h: 140px;
 
 .grid-playing-card-area {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);   /* ровно 3 колонки */
-  grid-template-rows: repeat(2, 150px);    /* ровно 2 строки по 150px */
-  gap: 2px;                               /* промежутки между ячейками */
+  grid-template-columns: repeat(3, 1fr); /* ровно 3 колонки */
+  grid-template-rows: repeat(2, 150px); /* ровно 2 строки по 150px */
+  gap: 2px; /* промежутки между ячейками */
   margin: 0 auto;
 
   &__item {

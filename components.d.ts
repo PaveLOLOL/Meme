@@ -12,6 +12,7 @@ declare module 'vue' {
     BrandSvg: typeof import('./src/components/app-svg/BrandSvg.vue')['default']
     BrendSvg: typeof import('./src/components/app-svg/BrendSvg.vue')['default']
     Card: typeof import('./src/components/cards/Card.vue')['default']
+    ControlPanel: typeof import('./src/components/controlPanel/ControlPanel.vue')['default']
     DrandShortSvg: typeof import('./src/components/app-svg/DrandShortSvg.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
@@ -23,6 +24,7 @@ declare module 'vue' {
     Navbar: typeof import('./src/components/navbar/Navbar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SituationsSvg: typeof import('./src/assets/situationsSvg.svg')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
   }

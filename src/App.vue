@@ -11,7 +11,6 @@
 
 
 <script setup lang="ts">
-import {useNavBarBarStore} from "@/stores/navBarStore";
 
 import '@/styles/main.scss';
 
