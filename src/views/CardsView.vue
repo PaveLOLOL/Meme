@@ -4,10 +4,13 @@
       <template #content>
         <div class="table" id="meme-table">
           <!--          todo добавить id для тестирования для всех элементов-->
-          <div class="table__zone-cards-meme">zone_cards_meme
+          <div class="table__zone-cards-meme">
+          <div class="table__zone-cards-meme-card-holder-meme stack">
             <div
-              v-for="meme in allCardsStore.$state.cardsMeme"
-              class="table__zone-cards-meme-card-holder-meme"
+              v-for="(meme,index) in allCardsStore.$state.cardsMeme"
+              :key="meme.id"
+              class="stack__card"
+              :style="{ zIndex: index }"
             >
               <Card
                 :srcFrontImg="meme.srcFrontImg"
@@ -18,18 +21,23 @@
                 @dragstart="onCardDragStart(meme, $event)"
               />
             </div>
-            <div
-              class="table__zone-cards-meme-card-holder-situation"
-              v-for="situation in allCardsStore.$state.cardsSituation"
-              :key="situation.id"
-            >
-              <Card
-                :descriptionOne="situation.descriptionOne"
-                :descriptionTwo="situation.descriptionTwo"
-                :cardId="situation.id"
-                :isFlipped="situation.flipped"
-                :ref="setSituationRef(situation.id)"
-              />
+        </div>
+
+            <div class="table__zone-cards-meme-card-holder-situation stack">
+              <div
+                v-for="(situation, index) in allCardsStore.$state.cardsSituation"
+                :key="situation.id"
+                class="stack__card"
+                :style="{ zIndex: index }"
+              >
+                <Card
+                  :descriptionOne="situation.descriptionOne"
+                  :descriptionTwo="situation.descriptionTwo"
+                  :cardId="situation.id"
+                  :isFlipped="situation.flipped"
+                  :ref="setSituationRef(situation.id)"
+                />
+              </div>
             </div>
           </div>
           <div class="table__zone-game-place">
@@ -63,19 +71,19 @@
                 class="grid-playing-card-area__item"
               >
                 <div v-if="cellCards[i]" class="motion-wrap">
-                <Card
-                  :srcFrontImg="cellCards[i]?.srcFrontImg"
-                  :srcBackImg="cellCards[i]?.srcBackImg"
-                  :cardId="cellCards[i]?.id"
-                  :isFlipped="cellCards[i]?.flipped"
-                  draggable="true"
-                  @dragstart="onCardDragStart(cellCards[i], $event)"
-                />
+                  <Card
+                    :srcFrontImg="cellCards[i]?.srcFrontImg"
+                    :srcBackImg="cellCards[i]?.srcBackImg"
+                    :cardId="cellCards[i]?.id"
+                    :isFlipped="cellCards[i]?.flipped"
+                    draggable="true"
+                    @dragstart="onCardDragStart(cellCards[i], $event)"
+                  />
                 </div>
               </div>
             </div>
           </div>
-          <div class="table__zone-discard-pile">zone_discard_pile
+          <div class="table__zone-discard-pile">
             <div
               class="table__zone-cards-meme-card-holder-discard-pile-meme"
               ref="discardMemeRef"
@@ -134,24 +142,28 @@ const cells = ref<(string | null)[]>([null, null, null, null, null, null])
 
 // для карт из общей зоны (мемы)
 const cardRefs = ref(new Map<string, HTMLElement>())
+
 function setCardRef(id: string) {
   return (el: any) => {
     if (el) cardRefs.value.set(id, el.$el ?? el as HTMLElement)
     else cardRefs.value.delete(id)
   }
 }
+
 function getCardRef(id: string) {
   return cardRefs.value.get(id)
 }
 
 // для situation-карт
 const situationRefs = ref(new Map<string, HTMLElement>())
+
 function setSituationRef(id: string) {
   return (el: any) => {
     if (el) situationRefs.value.set(id, el.$el ?? el as HTMLElement)
     else situationRefs.value.delete(id)
   }
 }
+
 function getSituationRef(id: string) {
   return situationRefs.value.get(id)
 }
@@ -225,7 +237,7 @@ function getCardData(id: string) {
 
 function handleAction(button: { label: string; type: string }) {
   console.log('Нажата кнопка:', button.label, 'тип:', button.type)
-  switch(button.label) {
+  switch (button.label) {
     case 'Режим судьи':
 
       break
@@ -259,7 +271,7 @@ function resetAllCards() {
   })
 
   // ситуации
-  const situation = allCardsStore.cardsSituation.at(0)
+  const situation = allCardsStore.cardsSituation[allCardsStore.cardsSituation.length - 1]
   if (situation) {
     const el = getSituationRef(situation.id)
     if (el) {
@@ -271,12 +283,10 @@ function resetAllCards() {
   setTimeout(() => {
     allCardsStore.discardPileCardHolderMeme.push(...allCardsStore.cardsOnCommonArea)
     allCardsStore.cardsOnCommonArea = []
-    allCardsStore.discardPileCardHolderSituation.push(allCardsStore.cardsSituation.at(0))
+    allCardsStore.discardPileCardHolderSituation.push(allCardsStore.cardsSituation[allCardsStore.cardsSituation.length - 1])
     cells.value = [null, null, null, null, null, null]
   }, 500)
 }
-
-
 
 
 function animateFly(el: HTMLElement, from: DOMRect, to: DOMRect) {
@@ -285,8 +295,8 @@ function animateFly(el: HTMLElement, from: DOMRect, to: DOMRect) {
 
   el.animate(
     [
-      { transform: 'translate(0, 0)', opacity: 1 },
-      { transform: `translate(${deltaX}px, ${deltaY}px) scale(0.5)`, opacity: 0.5 }
+      {transform: 'translate(0, 0)', opacity: 1},
+      {transform: `translate(${deltaX}px, ${deltaY}px) scale(0.5)`, opacity: 0.5}
     ],
     {
       duration: 500,
@@ -306,7 +316,7 @@ $card-h: 140px;
 .table {
   background-color: red;
   width: calc(100vw - 160px);
-  height: calc(100vh - 100px);
+  height: calc(100vh - 160px);
   margin: 10px;
   display: flex;
   gap: 16px;
@@ -416,6 +426,23 @@ $card-h: 140px;
     justify-content: center;
     width: 210px;
     height: 140px;
+  }
+}
+
+.stack {
+  position: relative;
+  width: $card-w;
+  height: $card-h;
+
+  &__card {
+    position: absolute;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+
+    // чтобы верхняя карта была кликабельной
+    &:last-child {
+      z-index: 10;
+    }
   }
 }
 </style>

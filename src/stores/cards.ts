@@ -1,7 +1,13 @@
-import { defineStore } from 'pinia';
+import {defineStore} from 'pinia';
 import memePreShowFront from "@/assets/memePreShowFront.png";
 import memePreShowBack from "@/assets/memePreShowBack.svg"
 import situationPreFrontBack from "@/assets/situationsSvg.svg"
+
+import M1 from "@/assets/localCardsBD/MemeDB/M1.jpg"
+import M2 from "@/assets/localCardsBD/MemeDB/M2.webp"
+import M3 from "@/assets/localCardsBD/MemeDB/M3.jpg"
+import M4 from "@/assets/localCardsBD/MemeDB/M4.jpg"
+
 
 type CommonAreaCard = {
   id: string
@@ -24,20 +30,66 @@ export const useAllCardsStore = defineStore('allCardsStore', {
       srcFrontImg: situationPreFrontBack,
       srcBackImg: situationPreFrontBack
     },
-    cardsMeme: [{
-      id: crypto.randomUUID(),
-      title: 'Имя карты (название карты мема)',
-      srcFrontImg: 'путь до картинки (рубашка)',
-      srcBackImg: 'путь до картинки (мем)',
-      flipped: false
-    }],
-    cardsSituation: [{
-      id: crypto.randomUUID(),
-      title: 'Имя карты (название карты ситуации)',
-      descriptionOne: 'Описание карты (только для ситуации 1)',
-      descriptionTwo: 'Описание карты (только для ситуации 2)',
-      flipped: false
-    }],
+    cardsMeme: [
+      {
+        id: crypto.randomUUID(),
+        title: 'Имя карты (название карты мема)',
+        srcFrontImg: M1,
+        srcBackImg: memePreShowBack,
+        flipped: false
+      },
+      {
+        id: crypto.randomUUID(),
+        title: 'Имя карты (название карты мема)',
+        srcFrontImg: M2,
+        srcBackImg: memePreShowBack,
+        flipped: false
+      },
+      {
+        id: crypto.randomUUID(),
+        title: 'Имя карты (название карты мема)',
+        srcFrontImg: M3,
+        srcBackImg: memePreShowBack,
+        flipped: false
+      },
+      {
+        id: crypto.randomUUID(),
+        title: 'Имя карты (название карты мема)',
+        srcFrontImg: M4,
+        srcBackImg: memePreShowBack,
+        flipped: false
+      },
+    ],
+    cardsSituation: [
+      {
+        id: crypto.randomUUID(),
+        title: 'Ситуация',
+        descriptionOne: 'Когда Wi-Fi есть, но интернета нет.',
+        descriptionTwo: 'Учитель: "Это будет на экзамене". Я:',
+        flipped: false
+      },
+      {
+        id: crypto.randomUUID(),
+        title: 'Ситуация',
+        descriptionOne: 'Открыл холодильник в 3 ночи.',
+        descriptionTwo: 'Когда скачал фильм на 50 ГБ, а это 3 минуты рекламы.',
+        flipped: false
+      },
+      {
+        id: crypto.randomUUID(),
+        title: 'Ситуация',
+        descriptionOne: 'Друг: "Пойдём по одному пиву".',
+        descriptionTwo: 'Зашёл в спортзал первый раз.',
+        flipped: false
+      },
+      {
+        id: crypto.randomUUID(),
+        title: 'Ситуация',
+        descriptionOne: 'Когда мама говорит: "А кто это у нас такой умный?".',
+        descriptionTwo: 'Купил подписку, чтобы не было рекламы…',
+        flipped: false
+      }
+    ],
     cardsOnCommonArea: [] as CommonAreaCard[],
     discardPileCardHolderMeme: [],
     discardPileCardHolderSituation: []

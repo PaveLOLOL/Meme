@@ -41,6 +41,7 @@ function onClick(btn: ButtonItem) {
   background-color: #6a0dad; // фон панели
   border-radius: 20px;
   justify-content: center;
+  flex-wrap: wrap;
 
   &__btn {
     border: none;
