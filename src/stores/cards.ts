@@ -9,11 +9,8 @@ import M3 from "@/assets/localCardsBD/MemeDB/M3.jpg"
 import M4 from "@/assets/localCardsBD/MemeDB/M4.jpg"
 
 
-type CommonAreaCard = {
-  id: string
-  x: number
-  y: number
-}
+
+import { cardsMeme } from "@/types/card"
 
 export const useAllCardsStore = defineStore('allCardsStore', {
   state: () => ({
@@ -59,7 +56,7 @@ export const useAllCardsStore = defineStore('allCardsStore', {
         srcBackImg: memePreShowBack,
         flipped: false
       },
-    ],
+    ] as cardsMeme[],
     cardsSituation: [
       {
         id: crypto.randomUUID(),
@@ -90,9 +87,9 @@ export const useAllCardsStore = defineStore('allCardsStore', {
         flipped: false
       }
     ],
-    cardsOnCommonArea: [] as CommonAreaCard[],
     discardPileCardHolderMeme: [],
-    discardPileCardHolderSituation: []
+    discardPileCardHolderSituation: [],
+    cardsOnCells: [] as { id: string; cellIndex: number }[],
   }),
   actions: {
     flipCard(id) {

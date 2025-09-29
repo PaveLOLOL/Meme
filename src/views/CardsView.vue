@@ -5,23 +5,23 @@
         <div class="table" id="meme-table">
           <!--          todo добавить id для тестирования для всех элементов-->
           <div class="table__zone-cards-meme">
-          <div class="table__zone-cards-meme-card-holder-meme stack">
-            <div
-              v-for="(meme,index) in allCardsStore.$state.cardsMeme"
-              :key="meme.id"
-              class="stack__card"
-              :style="{ zIndex: index }"
-            >
-              <Card
-                :srcFrontImg="meme.srcFrontImg"
-                :srcBackImg="meme.srcBackImg"
-                :cardId="meme.id"
-                :isFlipped="meme.flipped"
-                draggable="true"
-                @dragstart="onCardDragStart(meme, $event)"
-              />
+            <div class="table__zone-cards-meme-card-holder-meme stack">
+              <div
+                v-for="(meme,index) in allCardsStore.$state.cardsMeme"
+                :key="meme.id"
+                class="stack__card"
+                :style="{ zIndex: index }"
+              >
+                <Card
+                  :srcFrontImg="meme.srcFrontImg"
+                  :srcBackImg="meme.srcBackImg"
+                  :cardId="meme.id"
+                  :isFlipped="meme.flipped"
+                  draggable="true"
+                  @dragstart="onCardDragStart(meme, $event)"
+                />
+              </div>
             </div>
-        </div>
 
             <div class="table__zone-cards-meme-card-holder-situation stack">
               <div
@@ -47,7 +47,7 @@
               @drop="onDropCommonArea($event)"
             >
               <div
-                v-for="card in allCardsStore.cardsOnCommonArea"
+                v-for="card in commonAreaStore.cardsOnCommonArea"
                 :key="card.id"
                 class="draggable-card"
                 :style="{ top: card.y + 'px', left: card.x + 'px' }"
@@ -129,12 +129,15 @@ import BaseLayout from '@/layouts/BaseLayout.vue'
 import Card from '@/components/cards/Card.vue'
 import ControlPanel from '@/components/controlPanel/ControlPanel.vue'
 
+
 import {useAllCardsStore} from "@/stores/cards"
+import {useCommonAreaStore} from "@/stores/commonArea"
 import {ref, computed} from "vue"
 
 import {cardsMeme} from "@/types/card";
 
 const allCardsStore = useAllCardsStore()
+const commonAreaStore = useCommonAreaStore()
 
 
 // 6 ячеек (3x2), null = пустая
@@ -187,6 +190,11 @@ function onDrop(index: number, event: DragEvent) {
   if (cells.value[index] === null) {
     cells.value[index] = id
   }
+
+  // const cardIndex = allCardsStore.cardsMeme.findIndex(el => el.id === id)
+  // if (cardIndex !== -1) {
+  //   allCardsStore.cardsMeme.splice(cardIndex, 1)
+  // }
 }
 
 function onDropCommonArea(event: DragEvent) {
@@ -216,7 +224,7 @@ function onDropCommonArea(event: DragEvent) {
   if (y > maxY) y = maxY
 
   if (allCardsStore.getCardMemeById(id)) {
-    allCardsStore.cardsOnCommonArea.push({id, x, y})
+    commonAreaStore.cardsOnCommonArea.push({id, x, y})
     cells.value.forEach((elId, index) => {
       if (elId === id) {
         cells.value[index] = null
@@ -263,7 +271,7 @@ function resetAllCards() {
   const dzRectSituation = discardSituationRef.value.getBoundingClientRect()
 
   // мемы
-  allCardsStore.cardsOnCommonArea.forEach(card => {
+  commonAreaStore.cardsOnCommonArea.forEach(card => {
     const el = getCardRef(card.id)
     if (!el) return
     const rect = el.getBoundingClientRect()
@@ -281,8 +289,8 @@ function resetAllCards() {
   }
 
   setTimeout(() => {
-    allCardsStore.discardPileCardHolderMeme.push(...allCardsStore.cardsOnCommonArea)
-    allCardsStore.cardsOnCommonArea = []
+    allCardsStore.discardPileCardHolderMeme.push(...commonAreaStore.cardsOnCommonArea)
+    commonAreaStore.cardsOnCommonArea = []
     allCardsStore.discardPileCardHolderSituation.push(allCardsStore.cardsSituation[allCardsStore.cardsSituation.length - 1])
     cells.value = [null, null, null, null, null, null]
   }, 500)
