@@ -7,7 +7,7 @@
           <div class="table__zone-cards-meme">
             <div class="table__zone-cards-meme-card-holder-meme stack">
               <div
-                v-for="(meme,index) in allCardsStore.$state.cardsMeme"
+                v-for="(meme,index) in showMemesInCommonDeck"
                 :key="meme.id"
                 class="stack__card"
                 :style="{ zIndex: index }"
@@ -132,9 +132,11 @@ import ControlPanel from '@/components/controlPanel/ControlPanel.vue'
 
 import {useAllCardsStore} from "@/stores/cards"
 import {useCommonAreaStore} from "@/stores/commonArea"
-import {ref, computed} from "vue"
+import {ref, computed, onMounted} from "vue"
 
 import {cardsMeme} from "@/types/card";
+
+import api from '@/api/api'
 
 const allCardsStore = useAllCardsStore()
 const commonAreaStore = useCommonAreaStore()
@@ -181,6 +183,8 @@ function onCardDragStart(card: cardsMeme, event: DragEvent) {
   }
 }
 
+const hideIdsInCommonDeck = ref([]);
+
 function onDrop(index: number, event: DragEvent) {
   if (!event.dataTransfer) return
   const id = event.dataTransfer?.getData("text/plain")
@@ -191,11 +195,16 @@ function onDrop(index: number, event: DragEvent) {
     cells.value[index] = id
   }
 
-  // const cardIndex = allCardsStore.cardsMeme.findIndex(el => el.id === id)
-  // if (cardIndex !== -1) {
-  //   allCardsStore.cardsMeme.splice(cardIndex, 1)
-  // }
+  hideIdsInCommonDeck.value.push(id)
 }
+
+const showMemesInCommonDeck = computed(() => {
+  if (hideIdsInCommonDeck.value.length !== 0) {
+    const excluded = new Set(hideIdsInCommonDeck.value)
+    return allCardsStore.cardsMeme.filter(card => !excluded.has(card.id))
+  }
+  return allCardsStore.cardsMeme
+})
 
 function onDropCommonArea(event: DragEvent) {
   if (!event.dataTransfer) return
@@ -231,6 +240,8 @@ function onDropCommonArea(event: DragEvent) {
       }
     })
   }
+
+  hideIdsInCommonDeck.value.push(id)
 }
 
 const cellCards = computed(() => {
@@ -314,7 +325,9 @@ function animateFly(el: HTMLElement, from: DOMRect, to: DOMRect) {
   )
 }
 
-
+onMounted(() => {
+  api.cardsApi.getCardsList()
+})
 </script>
 
 <style lang="scss" scoped>

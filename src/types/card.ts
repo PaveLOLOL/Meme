@@ -5,3 +5,11 @@ export type cardsMeme = {
   srcBackImg: string
   flipped: boolean
 }
+
+export type cardsMemeParams = {
+  id: string
+  title: string
+  srcFrontImg: string
+  srcBackImg: string
+  flipped: boolean
+}

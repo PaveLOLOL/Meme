@@ -3,13 +3,6 @@ import memePreShowFront from "@/assets/memePreShowFront.png";
 import memePreShowBack from "@/assets/memePreShowBack.svg"
 import situationPreFrontBack from "@/assets/situationsSvg.svg"
 
-import M1 from "@/assets/localCardsBD/MemeDB/M1.jpg"
-import M2 from "@/assets/localCardsBD/MemeDB/M2.webp"
-import M3 from "@/assets/localCardsBD/MemeDB/M3.jpg"
-import M4 from "@/assets/localCardsBD/MemeDB/M4.jpg"
-
-
-
 import { cardsMeme } from "@/types/card"
 
 export const useAllCardsStore = defineStore('allCardsStore', {
@@ -27,36 +20,7 @@ export const useAllCardsStore = defineStore('allCardsStore', {
       srcFrontImg: situationPreFrontBack,
       srcBackImg: situationPreFrontBack
     },
-    cardsMeme: [
-      {
-        id: crypto.randomUUID(),
-        title: 'Имя карты (название карты мема)',
-        srcFrontImg: M1,
-        srcBackImg: memePreShowBack,
-        flipped: false
-      },
-      {
-        id: crypto.randomUUID(),
-        title: 'Имя карты (название карты мема)',
-        srcFrontImg: M2,
-        srcBackImg: memePreShowBack,
-        flipped: false
-      },
-      {
-        id: crypto.randomUUID(),
-        title: 'Имя карты (название карты мема)',
-        srcFrontImg: M3,
-        srcBackImg: memePreShowBack,
-        flipped: false
-      },
-      {
-        id: crypto.randomUUID(),
-        title: 'Имя карты (название карты мема)',
-        srcFrontImg: M4,
-        srcBackImg: memePreShowBack,
-        flipped: false
-      },
-    ] as cardsMeme[],
+    cardsMeme: [] as cardsMeme[],
     cardsSituation: [
       {
         id: crypto.randomUUID(),
